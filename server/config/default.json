@@ -1,3 +1,7 @@
 {
-    "db_server": "mongodb+srv://raboudina:bgrazBa9FUYvvIP7@cluster0.k1kbdyc.mongodb.net/"
-}
+    "server": {
+        "host":"mongodb+srv://",
+        "user":"raboudina:bgrazBa9FUYvvIP7",
+        "cluster":"@cluster0.k1kbdyc.mongodb.net/"
+    }
+  }
