@@ -1,6 +1,10 @@
 const MongoClient = require('mongodb').MongoClient;
-const url         = 'mongodb+srv://raboudina:bgrazBa9FUYvvIP7@cluster0.k1kbdyc.mongodb.net/';
+const config = require('config');
+
+const url=config.get('db_server');
+//const url         = 'mongodb+srv://raboudina:bgrazBa9FUYvvIP7@cluster0.k1kbdyc.mongodb.net/';
 //const url         = 'mongodb://mongo:27017';
+
 let db            = null;
  
 //connect to mongo

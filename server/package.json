@@ -10,6 +10,7 @@
   "author": "abel@mit.edu",
   "license": "MIT",
   "dependencies": {
+    "config": "^3.3.9",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "lowdb": "^1.0.0",
