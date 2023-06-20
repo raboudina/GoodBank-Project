@@ -7,6 +7,15 @@ var dal     = require('./dal.js');
 var port = 8080;
 
 app.use(cors());
+app.use(express.static("../client/build"));
+app.get('/',function(req,res){
+    res.sendFile("../client/build/index.html",
+    function(err){
+        if(err){
+            res.status(500).send(err);
+        }
+    })
+})
 
 // create user account
 app.get('/create/:name/:email/:password/:balance', function (req, res) {
