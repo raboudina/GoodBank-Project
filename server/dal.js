@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('config');
 const host = config.get('server.host');
 const user = config.get('server.user');
-const cluster = config.get('server.cluster');
+const cluster = config.get('server.cluster'); 
 
 const url=host + user + cluster;
 //const url         = 'mongodb+srv://raboudina:bgrazBa9FUYvvIP7@cluster0.k1kbdyc.mongodb.net/';
