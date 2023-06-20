@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+  justify-content: center;
+}
+
+.container{
+  justify-content: center;
+  display: inline-flex;
+  font-family: 'Times New Roman', Times, serif;
+  padding:20px;
+}
+
+.navbar{
+  font-family: 'Times New Roman', Times, serif;
+}
+.nav-pills .nav-link.active{
+  background-color: #0575A5;
+}
+
+.nav-link {
+  color:white;
+}
+
+.card{
+  margin-bottom: 3rem; 
+  width: 25rem;
+  border-style:solid;
+  color : #354B5F;
+}
+
+.card.primary{
+  background-color:  #ADC5D9 ; 
+}
+
+.card.allData{
+  width:fit-content;
+  max-width:none;
+}
+.card-header{
+  font-size: large;
+  background-color:  #0575A5;
+  color : white;
+}
+
+.card-header.allData{
+  background-color: #0575A5;
+  color: white;
+}
+
+.col.name{
+  width:10rem;
+}
+.col.email{
+  width:30rem;
+}
+
+.col.password{
+  width: 10rem;
+}
+
+.card-header.home{
+  text-align: center;
+  color:white;
+  background-color:#0575A5 ;
+}
+
+
+
+.form-text {
+ 
+  font-size:small ;
+  /*color : #B21807;*/
+  color: darkred;
+}
+
+.card-body.home{
+  color:#354B5F;
+  text-align:center;
+  font-weight: 6000;
+}
+
+
+  .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+

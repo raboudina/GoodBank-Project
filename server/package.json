@@ -1,0 +1,22 @@
+{
+  "name": "littledb",
+  "version": "1.0.0",
+  "description": "lowdb sample for 1.125",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon server.js"
+  },
+  "author": "abel@mit.edu",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "lowdb": "^1.0.0",
+    "mongodb": "^3.7.3",
+    "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.7"
+  }
+}
