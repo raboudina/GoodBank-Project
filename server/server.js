@@ -2,19 +2,27 @@ var express = require('express');
 var app     = express();
 var cors    = require('cors');
 var dal     = require('./dal.js');
+var path    = require('path');
 
 
 var port = 8080;
 
+
+const buildPath = path.join(__dirname,"../client/build");
+const indexPath = path.join(__dirname,"../client/build/index.html")
 app.use(cors());
-app.use(express.static("../client/build"));
+
+
+
+app.use(express.static(buildPath ));
 app.get('/',function(req,res){
-    res.sendFile("../client/build/index.html",
-    function(err){
-        if(err){
-            res.status(500).send(err);
-        }
-    })
+    res.sendFile(indexPath)
+    // ,
+    // function(err){
+    //     if(err){
+    //         res.status(500).send(err);
+    //     }
+    // })
 })
 
 // create user account
