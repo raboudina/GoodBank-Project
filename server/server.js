@@ -3,9 +3,9 @@ var app     = express();
 var cors    = require('cors');
 var dal     = require('./dal.js');
 var path    = require('path');
+var config = require('config');
 
-
-var port = 8080;
+//var port = 8080;
 
 
 const buildPath = path.join(__dirname,"../client/build");
@@ -115,5 +115,5 @@ app.get('/users', function (req, res) {
 });
 
 
-app.listen(port);
-console.log('Running on port: ' + port);
+app.listen(config.port);
+console.log('Running on port: ' + config.port);

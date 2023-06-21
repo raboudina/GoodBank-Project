@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 
 const UserContext=createContext({loggedIn:null,setLoggedIn:()=>{},name:null,setName:()=>{},email:null,setEmail:()=>{},balance:null,setBalance:()=>{}});
-
+const URL = 'http://localhost:8080/';
 function Context ({children}){
    
     const [loggedIn,setLoggedIn]=useState(false);
@@ -18,4 +18,4 @@ function Context ({children}){
     );
 }
 
-export { Context, UserContext}
+export { Context, UserContext, URL}

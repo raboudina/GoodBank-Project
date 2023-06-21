@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import { useState, useContext } from "react";
-import { UserContext } from "../context";
+import {URL, UserContext } from "../context";
 import axios from "axios";
 
-const apiUrl = `http://localhost:8080/login`;
+const apiUrl = URL + `login`;
 
 function Login() {
   const currentUser = useContext(UserContext);

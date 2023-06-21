@@ -1,9 +1,9 @@
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { UserContext } from "../context";
+import { URL, UserContext } from "../context";
 import React from "react";
 import axios from "axios";
 
-const apiUrl = `http://localhost:8080/update`;
+const apiUrl = URL + `update`;
 
 function Withdraw() {
   const currentUser = React.useContext(UserContext);

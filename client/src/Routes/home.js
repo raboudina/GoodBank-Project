@@ -21,7 +21,8 @@ function Home(){
       <Card.Body className="home">
       <Card.Img variant="bottom" src="../imgs/bank3.png" />
       <Card.Link href="#/Deposit/" >Make a deposit to your account</Card.Link><br/>
-      <Card.Link href="#/Withdraw/" >Withdraw money from your account</Card.Link>
+      <Card.Link href="#/Withdraw/" >Withdraw money from your account</Card.Link><br/>
+      <Card.Link href="#/Balance/">Check your balance</Card.Link>
       </Card.Body>
       </>
       ):(<><Card.Body as="h5" className="home" >

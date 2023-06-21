@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
 import axios from "axios";
-import { UserContext } from "../context";
+import { URL, UserContext } from "../context";
 
-const apiUrl = `http://localhost:8080/create/`;
+const apiUrl = URL + `create/`;
 
 function CreateAccount() {
   const [first, setFrist] = React.useState(true); //First attempt to fill the form
@@ -12,6 +12,7 @@ function CreateAccount() {
   const [email, setEmail] = React.useState(""); // Input email value
   const [balance, setBalance] = React.useState(100); // Input email value
   const [password, setPassword] = React.useState(""); //Input password value
+  const [passwordConfirmation, setPasswordConfirmation] = React.useState(""); //Input password confirmation value
   const currentUser = React.useContext(UserContext); //Current user context
   //console.log(currentUser);
   var errorMessage = "";
@@ -23,6 +24,8 @@ function CreateAccount() {
     email2: "** Invalid email",
     password: "** Password cannot be empty",
     password2: "** Password cannot be less than 8 characters",
+    password3: "** Password confirmation cannot be empty",
+    password4: "** Passwords do not match",
     balance: "** Balance cannot be empty",
     balance1: "** Initial balance cannot be less than $100",
     balance2: "** Balance has to be a number",
@@ -30,20 +33,11 @@ function CreateAccount() {
 
   //Checks if all fields are empty to disable the Create Account button
   function emptyFields() {
-    if (name && email && balance && password) return false;
+    if (name && email && balance && password && passwordConfirmation) return false;
     return true;
   }
 
-  // //Function clearForm called by the "Create another account button to clear the previous form and allow the user to create a new account"
-  // function clearForm() {
-  //   setName("");
-  //   setEmail("");
-  //   setBalance(100);
-  //   setPassword("");
-  //   setFrist(true);
-  //   setShow(true);
-  // }
-  async function createUser(name, email, password, balance) {
+   async function createUser(name, email, password, balance) {
     var res = await axios.get(
       apiUrl + name + "/" + email + "/" + password + "/" + balance
     );
@@ -122,6 +116,19 @@ function CreateAccount() {
     }
   }
 
+  function isValidPasswordConfirmation() {
+    if (!passwordConfirmation) {
+      errorMessage = error["password3"];
+      return false;
+    }
+    if (password == passwordConfirmation) {
+      return true;
+    } else {
+      errorMessage = error["password4"];
+      return false;
+    }
+  }
+
   //Function validate is called to validate the value of an input field
 
   //Function handleCreate called when the "Create account button is clicked"
@@ -145,6 +152,11 @@ function CreateAccount() {
     }
     //validate password field
     if (!isValidPassword()) {
+      alert(errorMessage);
+      return;
+    }
+    //validate password field
+    if (!isValidPasswordConfirmation()) {
       alert(errorMessage);
       return;
     }
@@ -232,6 +244,19 @@ function CreateAccount() {
               }}
             ></Form.Control>
             {!first && !isValidPassword() && (
+              <Form.Text>{errorMessage}</Form.Text>
+            )}
+            <br />
+            <Form.Label>Confirm password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm password"
+              defaultValue={passwordConfirmation}
+              onChange={(e) => {
+                setPasswordConfirmation(e.currentTarget.value);
+              }}
+            ></Form.Control>
+            {!first && !isValidPasswordConfirmation() && (
               <Form.Text>{errorMessage}</Form.Text>
             )}
             <br />

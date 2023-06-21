@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useContext } from "react";
 import { UserContext } from "../context";
 
@@ -29,15 +29,20 @@ function NavBar() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav variant="pills">          
+          <Nav.Link href="#/">Home</Nav.Link>
           <Nav.Link href="#/deposit/">Deposit</Nav.Link>
           <Nav.Link href="#/withdraw/">Withdraw</Nav.Link>
-          <Nav.Link href="#/logout/">Logout</Nav.Link>
+          <Nav.Link href="#/Balance/">Check balance</Nav.Link>
         </Nav>
       </Navbar.Collapse>
       <Navbar.Collapse className="justify-content-end">
-        <Nav variant="pill">
+        {/* <Nav variant="pill">
         <Navbar.Text style={{color:"white",  marginRight: '0.8rem'}}>Logged-in as: {name}   </Navbar.Text>
-        </Nav>
+        </Nav> */}
+        <NavDropdown style={{color:"white", marginRight: '0.8rem'}} variant="pill" title= {"Logged-in as: "+name} id="basic-nav-dropdown">
+              <NavDropdown.Item href="#/info/">Account information</NavDropdown.Item>     
+              <NavDropdown.Item href="#/logout/">Logout</NavDropdown.Item>         
+        </NavDropdown>
       </Navbar.Collapse>
     </Navbar>
   );
