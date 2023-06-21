@@ -13,7 +13,7 @@ function Info() {
       <Card.Body>
       <Form>
         <Form.Label>Account holder: {name} </Form.Label><br/>        
-        <Form.Label>Email: ${email}</Form.Label><br/>      
+        <Form.Label>Email: {email}</Form.Label><br/>      
       </Form>
       <br />
       <Card.Link href="#/Deposit/">Make a deposit to your account</Card.Link><br/>      

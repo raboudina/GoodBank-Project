@@ -1,13 +1,13 @@
 {
-  "name": "littledb",
+  "name": "goodbank-server",
   "version": "1.0.0",
-  "description": "lowdb sample for 1.125",
+  "description": "Gooddbank project server",
   "main": "server.js",
   "scripts": {
     "test": "jest",
     "start": "nodemon server.js"
   },
-  "author": "abel@mit.edu",
+  "author": "Radwa",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
