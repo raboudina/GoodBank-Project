@@ -99,7 +99,8 @@ function Login() {
           >
             <img
               src="../imgs/google.png"
-              width="20"
+              width="20"              
+              alt = "Google icon"
               style={{ marginRight: "0.8rem" }}
             />
             Login with Google

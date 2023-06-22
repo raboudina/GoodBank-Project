@@ -293,6 +293,7 @@ function CreateAccount() {
               <img
                 src="../imgs/google.png"
                 width="20"
+                alt = "Google icon"
                 style={{ marginRight: "0.8rem" }}
               />
               Signup with Google
