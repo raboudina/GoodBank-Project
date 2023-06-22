@@ -42,7 +42,6 @@ app.get("/create/:name/:email/:password/:balance", function (req, res) {
   });
 });
 
-
 // login user
 app.get("/login/:email/:password", function (req, res) {
   dal.find(req.params.email).then((user) => {
