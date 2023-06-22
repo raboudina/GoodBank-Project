@@ -28,6 +28,15 @@
   color : #354B5F;
 }
 
+.btn-primary{
+  background-color:  #0575A5;
+  border: 0cm;
+}
+
+.btn-primary:hover{
+  background-color:  #354B5F;
+}
+
 .card.primary{
   background-color:  #ADC5D9 ; 
 }

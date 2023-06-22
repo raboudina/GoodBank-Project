@@ -15,12 +15,6 @@ app.use(cors());
 app.use(express.static(buildPath));
 app.get("/", function (req, res) {
   res.sendFile(indexPath);
-  // ,
-  // function(err){
-  //     if(err){
-  //         res.status(500).send(err);
-  //     }
-  // })
 });
 
 // create user account
@@ -48,6 +42,7 @@ app.get("/create/:name/:email/:password/:balance", function (req, res) {
   });
 });
 
+
 // login user
 app.get("/login/:email/:password", function (req, res) {
   dal.find(req.params.email).then((user) => {
@@ -58,7 +53,6 @@ app.get("/login/:email/:password", function (req, res) {
         user[0].password,
         function (err, isMatch) {
           if (isMatch) {
-            console.log(req.params.password, user[0].password, isMatch);
             res.send({ success: true, user: user[0] });
           } else {
             res.send({

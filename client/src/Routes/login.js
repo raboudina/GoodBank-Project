@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import { useState, useContext } from "react";
-import {URL, UserContext } from "../context";
+import { URL, UserContext } from "../context";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const apiUrl = URL + `login`;
 
@@ -23,13 +24,40 @@ function Login() {
     currentUser.setBalance(user.balance);
   }
 
-  async function login() {
+  function handleGoogleLoginSuccess(tokenResponse) {
+    const googleAccessToken = tokenResponse.access_token;
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${googleAccessToken}`,
+        },
+      })
+      .then(async (response) => {
+        //Retrieve email from google account
+
+        //Login
+        let res = login(response.data.email, "google");
+        res.then((resolve) => {
+          if (resolve.data.success) {
+            setCurrentUser(resolve.data.user);
+            document.location.assign("#/");
+          } else {
+            alert(resolve.data.message);
+          }
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  async function login(email, password) {
     let res = await axios.get(apiUrl + "/" + email + "/" + password);
     return res;
   }
 
   async function handleLogin() {
-    let res = login();
+    let res = login(email, password);
     res.then((resolve) => {
       if (resolve.data.success) {
         setCurrentUser(resolve.data.user);
@@ -40,6 +68,7 @@ function Login() {
     });
   }
 
+  const signin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
   return (
     <Card className="primary">
       <Card.Header>Login</Card.Header>
@@ -77,6 +106,20 @@ function Login() {
           >
             Login
           </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            onClick={() => signin()}
+            style={{ marginLeft: "0.8rem" }}
+          >
+            <img
+              src="../imgs/google.png"
+              width="20"
+              style={{ marginRight: "0.8rem" }}
+            />
+            Login with Google
+          </Button>
+          <br />
           <br />
           <a href="#/CreateAccount/">Create a new account</a>
         </Form>

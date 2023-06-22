@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
 import axios from "axios";
 import { URL, UserContext } from "../context";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const apiUrl = URL + `create/`;
 
@@ -33,23 +34,9 @@ function CreateAccount() {
 
   //Checks if all fields are empty to disable the Create Account button
   function emptyFields() {
-    if (name && email && balance && password && passwordConfirmation) return false;
+    if (name && email && balance && password && passwordConfirmation)
+      return false;
     return true;
-  }
-
-   async function createUser(name, email, password, balance) {
-    var res = await axios.get(
-      apiUrl + name + "/" + email + "/" + password + "/" + balance
-    );
-    return res;
-  }
-  //Function addAccount adds to account to the list of allUsers and set the current user to the new created account
-  function setCurrentUser(user) {
-    console.log(user);
-    currentUser.setLoggedIn(true);
-    currentUser.setName(user.name);
-    currentUser.setEmail(user.email);
-    currentUser.setBalance(user.balance);
   }
 
   //Function capitalizeName turns a text into proper noun capitalized form
@@ -121,18 +108,64 @@ function CreateAccount() {
       errorMessage = error["password3"];
       return false;
     }
-    if (password == passwordConfirmation) {
+    if (password === passwordConfirmation) {
       return true;
     } else {
       errorMessage = error["password4"];
       return false;
     }
   }
+  async function createUser(name,email,password,balance) {
+    var res = await axios.get(
+      apiUrl + name + "/" + email + "/" + password + "/" + balance
+    );
+    return res;
+  }
 
-  //Function validate is called to validate the value of an input field
+  //Function addAccount adds to account to the list of allUsers and set the current user to the new created account
+  function setCurrentUser(user) {
+    console.log(user);
+    currentUser.setLoggedIn(true);
+    currentUser.setName(user.name);
+    currentUser.setEmail(user.email);
+    currentUser.setBalance(user.balance);
+  }
+  function handleGoogleLoginSuccess(tokenResponse) {
+    const googleAccessToken = tokenResponse.access_token;
+   
+    axios
+      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          "Authorization": `Bearer ${googleAccessToken}`,
+        },
+      })
+      .then(async (response) => {
+        //Retrieve name and email from google account 
+        
+        const googleName = response.data.given_name + " " + response.data.family_name;
+        const googleEmail = response.data.email;
+        const googlePassword="google";
+         
+        //Add new account
+        let res = createUser(googleName,googleEmail,googlePassword,balance);
+        res.then((resolve) => {
+          console.log(resolve.data);
+          if (resolve.data === "User exists") alert("User already exists!");
+          else {
+            setCurrentUser(resolve.data);
+            //Hide form fields and display success message
+            setShow(false);
+          }
+        });
+      })
+      .catch(err => {
+        throw err;
+    })
+  }
 
   //Function handleCreate called when the "Create account button is clicked"
   function handleCreate() {
+    
     //Set the first to false indicating that it is no longer the user's first attempt to submit the form
     setFrist(false);
     //validate name field
@@ -160,11 +193,9 @@ function CreateAccount() {
       alert(errorMessage);
       return;
     }
-    //Format name in proper nound capitalized form
-    const capName = capitalizeName(name);
-    const lowerCaseEmail = email.toLocaleLowerCase();
+
     //Add new account
-    let res = createUser(capName, lowerCaseEmail, password, balance);
+    let res = createUser(name,email,password,balance);
     res.then((resolve) => {
       console.log(resolve.data);
       if (resolve.data === "User exists") alert("User already exists!");
@@ -175,7 +206,7 @@ function CreateAccount() {
       }
     });
   }
-
+  const signup = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
   return (
     <Card className="primary">
       <Card.Header>Create Account</Card.Header>
@@ -188,7 +219,7 @@ function CreateAccount() {
               placeholder="Enter name"
               defaultValue={name}
               onChange={(e) => {
-                setName(e.currentTarget.value);
+                setName(capitalizeName(e.currentTarget.value));
               }}
             ></Form.Control>
             {!first && !isValidName() && (
@@ -204,7 +235,7 @@ function CreateAccount() {
               placeholder="Enter email"
               defaultValue={email}
               onChange={(e) => {
-                setEmail(e.currentTarget.value);
+                setEmail(e.currentTarget.value.toLocaleLowerCase());
               }}
             ></Form.Control>
             {!first && !isValidEmail() && (
@@ -261,7 +292,7 @@ function CreateAccount() {
             )}
             <br />
 
-            <br />
+          
             <Button
               type="submit"
               variant="light"
@@ -273,7 +304,16 @@ function CreateAccount() {
             >
               Create Account
             </Button>
-            <br />
+            
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={() => signup()}
+              style={{marginLeft:'0.8rem'}}
+            ><img src="../imgs/google.png" width="20" style={{marginRight: '0.8rem'}}/>
+               Signup with Google
+            </Button>
+            <br /><br/>
             <a href="#/Login/">Login to an existing account</a>
           </Form>
         ) : (
