@@ -1,5 +1,4 @@
 import "./App.css";
-import AllData from "./Routes/alldata";
 import {NavBar,NoAuthNavBar} from "./Routes/navbar";
 import Deposit from "./Routes/deposit";
 import Login from "./Routes/login";
@@ -30,7 +29,6 @@ function App() {
           <Route path="/withdraw/" element={<Withdraw />} />
           <Route path="/info/" element={<Info />} />
           <Route path="/balance/" element={<Balance />} />
-          <Route path="/alldata/" element={<AllData />} />
         </Routes>
       </div>
     </HashRouter>

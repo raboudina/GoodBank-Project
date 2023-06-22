@@ -1,11 +1,9 @@
 import React from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import { useState, useContext } from "react";
-import { URL, UserContext } from "../context";
-import axios from "axios";
+import { UserContext } from "../context";
 import { useGoogleLogin } from "@react-oauth/google";
-
-const apiUrl = URL + `login`;
+import { login, getGoogleUser } from "../api";
 
 function Login() {
   const currentUser = useContext(UserContext);
@@ -26,34 +24,20 @@ function Login() {
 
   function handleGoogleLoginSuccess(tokenResponse) {
     const googleAccessToken = tokenResponse.access_token;
-    axios
-      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          Authorization: `Bearer ${googleAccessToken}`,
-        },
-      })
-      .then(async (response) => {
-        //Retrieve email from google account
-
-        //Login
-        let res = login(response.data.email, "google");
-        res.then((resolve) => {
-          if (resolve.data.success) {
-            setCurrentUser(resolve.data.user);
-            document.location.assign("#/");
-          } else {
-            alert(resolve.data.message);
-          }
-        });
-      })
-      .catch((err) => {
-        throw err;
+    //Retrieve email from google account
+    let response = getGoogleUser(googleAccessToken);
+    response.then((resolve) => {
+      //Login
+      let res = login(resolve.data.email, "google");
+      res.then((resolve) => {
+        if (resolve.data.success) {
+          setCurrentUser(resolve.data.user);
+          document.location.assign("#/");
+        } else {
+          alert(resolve.data.message);
+        }
       });
-  }
-
-  async function login(email, password) {
-    let res = await axios.get(apiUrl + "/" + email + "/" + password);
-    return res;
+    });
   }
 
   async function handleLogin() {
@@ -69,6 +53,7 @@ function Login() {
   }
 
   const signin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
+  
   return (
     <Card className="primary">
       <Card.Header>Login</Card.Header>

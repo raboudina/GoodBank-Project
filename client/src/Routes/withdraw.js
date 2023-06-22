@@ -1,9 +1,7 @@
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { URL, UserContext } from "../context";
+import { UserContext } from "../context";
+import { updateBalance } from "../api";
 import React from "react";
-import axios from "axios";
-
-const apiUrl = URL + `update`;
 
 function Withdraw() {
   const currentUser = React.useContext(UserContext);
@@ -31,11 +29,6 @@ function Withdraw() {
     return true;
   }
 
-  async function updateBalance(newBalance) {
-    var res = await axios.get(apiUrl + "/" + email + "/" + newBalance);
-    return res;
-  }
-
   function handleSubmit() {
     setFirst(false);
     if (!isValidWithdrawal()) {
@@ -43,8 +36,8 @@ function Withdraw() {
       return;
     }
     const newBalance = Number(balance) - Number(withdrawal);
-    let res = updateBalance(newBalance);
-    res.then((resolve) => {
+    let res = updateBalance(email,newBalance);
+    res.then(() => {
       setBalance(newBalance);
       //Hide form fields and display success message
       setShow(false);

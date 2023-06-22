@@ -1,10 +1,8 @@
 import React from "react";
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import axios from "axios";
-import { URL, UserContext } from "../context";
+import { UserContext } from "../context";
 import { useGoogleLogin } from "@react-oauth/google";
-
-const apiUrl = URL + `create/`;
+import { createUser, getGoogleUser } from "../api";
 
 function CreateAccount() {
   const [first, setFrist] = React.useState(true); //First attempt to fill the form
@@ -15,7 +13,6 @@ function CreateAccount() {
   const [password, setPassword] = React.useState(""); //Input password value
   const [passwordConfirmation, setPasswordConfirmation] = React.useState(""); //Input password confirmation value
   const currentUser = React.useContext(UserContext); //Current user context
-  //console.log(currentUser);
   var errorMessage = "";
 
   //error messgaes per field
@@ -115,12 +112,6 @@ function CreateAccount() {
       return false;
     }
   }
-  async function createUser(name,email,password,balance) {
-    var res = await axios.get(
-      apiUrl + name + "/" + email + "/" + password + "/" + balance
-    );
-    return res;
-  }
 
   //Function addAccount adds to account to the list of allUsers and set the current user to the new created account
   function setCurrentUser(user) {
@@ -132,40 +123,29 @@ function CreateAccount() {
   }
   function handleGoogleLoginSuccess(tokenResponse) {
     const googleAccessToken = tokenResponse.access_token;
-   
-    axios
-      .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          "Authorization": `Bearer ${googleAccessToken}`,
-        },
-      })
-      .then(async (response) => {
-        //Retrieve name and email from google account 
-        
-        const googleName = response.data.given_name + " " + response.data.family_name;
-        const googleEmail = response.data.email;
-        const googlePassword="google";
-         
-        //Add new account
-        let res = createUser(googleName,googleEmail,googlePassword,balance);
-        res.then((resolve) => {
-          console.log(resolve.data);
-          if (resolve.data === "User exists") alert("User already exists!");
-          else {
-            setCurrentUser(resolve.data);
-            //Hide form fields and display success message
-            setShow(false);
-          }
-        });
-      })
-      .catch(err => {
-        throw err;
-    })
+    let response = getGoogleUser(googleAccessToken);
+    response.then((resolve) => {
+      //Retrieve name and email from google account
+      const googleName =
+        resolve.data.given_name + " " + resolve.data.family_name;
+      const googleEmail = resolve.data.email;
+      const googlePassword = "google";
+
+      //Add new account
+      let res = createUser(googleName, googleEmail, googlePassword, balance);
+      res.then((resolve) => {
+        if (resolve.data === "User exists") alert("User already exists!");
+        else {
+          setCurrentUser(resolve.data);
+          //Hide form fields and display success message
+          setShow(false);
+        }
+      });
+    });
   }
 
   //Function handleCreate called when the "Create account button is clicked"
   function handleCreate() {
-    
     //Set the first to false indicating that it is no longer the user's first attempt to submit the form
     setFrist(false);
     //validate name field
@@ -195,7 +175,7 @@ function CreateAccount() {
     }
 
     //Add new account
-    let res = createUser(name,email,password,balance);
+    let res = createUser(name, email, password, balance);
     res.then((resolve) => {
       console.log(resolve.data);
       if (resolve.data === "User exists") alert("User already exists!");
@@ -206,7 +186,7 @@ function CreateAccount() {
       }
     });
   }
-  const signup = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
+  const signup = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
   return (
     <Card className="primary">
       <Card.Header>Create Account</Card.Header>
@@ -292,7 +272,6 @@ function CreateAccount() {
             )}
             <br />
 
-          
             <Button
               type="submit"
               variant="light"
@@ -304,16 +283,22 @@ function CreateAccount() {
             >
               Create Account
             </Button>
-            
+
             <Button
               type="submit"
               variant="primary"
               onClick={() => signup()}
-              style={{marginLeft:'0.8rem'}}
-            ><img src="../imgs/google.png" width="20" style={{marginRight: '0.8rem'}}/>
-               Signup with Google
+              style={{ marginLeft: "0.8rem" }}
+            >
+              <img
+                src="../imgs/google.png"
+                width="20"
+                style={{ marginRight: "0.8rem" }}
+              />
+              Signup with Google
             </Button>
-            <br /><br/>
+            <br />
+            <br />
             <a href="#/Login/">Login to an existing account</a>
           </Form>
         ) : (

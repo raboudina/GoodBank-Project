@@ -1,9 +1,7 @@
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { URL, UserContext } from "../context";
+import { UserContext } from "../context";
+import { updateBalance } from "../api";
 import React from "react";
-import axios from 'axios';
-
-const apiUrl = URL + `update`;
 
 function Deposit() {
   const currentUser = React.useContext(UserContext); 
@@ -26,14 +24,6 @@ function Deposit() {
     return true;
   }
   
-  async function updateBalance(newBalance) {
-    console.log(apiUrl +"/"+ email + "/" + newBalance);
-    var res = await axios.get(
-      apiUrl +"/"+ email + "/" + newBalance
-    );    
-   return res;
-  }
-
   function handleSubmit() {
     setFirst(false);
     if(!isValidDeposit()) {
@@ -41,8 +31,8 @@ function Deposit() {
       return;
     }
     const newBalance = Number(balance) + Number(deposit);
-    let res = updateBalance(newBalance);
-    res.then((resolve)=> {
+    let res = updateBalance(email, newBalance);
+    res.then(()=> {
       setBalance (newBalance);
       //Hide form fields and display success message
       setShow(false);
