@@ -1,0 +1,25 @@
+Atlas:
+
+raboudina
+bgrazBa9FUYvvIP7
+
+//const url         = 'mongodb+srv://raboudina:bgrazBa9FUYvvIP7@cluster0.k1kbdyc.mongodb.net/';
+//const url         = 'mongodb://mongo:27017';
+
+AWS-EC2:
+
+-vim /etc/nginx/sites-available/default
+ location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                #try_files $uri $uri/ =404;
+                proxy_pass http://localhost:8080;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection $host;
+                proxy_cache_bypass Host $http_upgrade;
+        }
+-pm2 restart server.js --name Radwa-AboudinaFullStackBankingApplication
+-sudo service nginx restart
+
+
+ 
