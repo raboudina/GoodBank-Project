@@ -1,5 +1,5 @@
 
-# GoodBank API
+# GoodBank API Documentation
 
 This API allows users to create and login to their bank accounts, as well as perform transactions such as depositing and withdrawing money.
 
@@ -36,7 +36,7 @@ Example request 2:
 curl http://ec2-44-231-181-13.us-west-2.compute.amazonaws.com/create/"Alice Smith"/"alice@example.com"/"secretPass"/1000
 ```
 
-Example response 21:
+Example response 2:
 
 ```json
 {
