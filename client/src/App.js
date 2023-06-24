@@ -8,9 +8,11 @@ import Withdraw from "./Routes/withdraw";
 import Home from "./Routes/home";
 import Info from "./Routes/info";
 import Balance from "./Routes/balance";
+import DeleteAccount from "./Routes/deleteAccount";
 import { Route, Routes, HashRouter } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "./context"
+
 
 function App() {
    const currentUser = useContext(UserContext);
@@ -29,6 +31,7 @@ function App() {
           <Route path="/withdraw/" element={<Withdraw />} />
           <Route path="/info/" element={<Info />} />
           <Route path="/balance/" element={<Balance />} />
+          <Route path="/deleteAccount/" element={<DeleteAccount />} />
         </Routes>
       </div>
     </HashRouter>

@@ -32,6 +32,7 @@ function Login() {
       res.then((resolve) => {
         if (resolve.data.success) {
           setCurrentUser(resolve.data.user);
+          currentUser.setIsGoogleAccount(true);
           document.location.assign("#/");
         } else {
           alert(resolve.data.message);

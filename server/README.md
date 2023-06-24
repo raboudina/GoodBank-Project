@@ -113,3 +113,27 @@ Example response:
   "balance": 1500
 }
 ```
+## Delete account
+
+To delete an account, you need to send a request to the `/delete/:email/:password` endpoint with the email and password. The response will contain a JSON object with a status, success or failure, and a message in case of failure.
+
+### Failure messages:
+ - "Failed to delete account: wrong password"
+ - "Failed to delete account: user not found"
+
+Example request 1:
+
+```bash
+curl http://ec2-44-231-181-13.us-west-2.compute.amazonaws.com/delete/"alice@example.com"/"secretPass"
+```
+
+Example response 1:
+
+```json
+  {
+  "success":false,
+  "message":"Failed to delete account: user not found"
+  }
+
+```
+

@@ -41,7 +41,7 @@ function find(email){
 // find user account
 function findOne(email){
     return new Promise((resolve, reject) => {    
-        const customers = db
+        const users = db
             .collection('users')
             .findOne({email: email})
             .then((doc) => resolve(doc))
@@ -52,7 +52,7 @@ function findOne(email){
 // update - deposit/withdraw amount
 function update(email, amount){
     return new Promise((resolve, reject) => {    
-        const customers = db
+        const users = db
             .collection('users')            
             .updateOne(
                 {email: email},
@@ -65,6 +65,16 @@ function update(email, amount){
 
 
     });    
+}
+// delete - deposit/withdraw amount
+function deleteOne(id){
+    console.log (id);
+    return new Promise((resolve, reject) => {    
+        const users = db
+            .collection('users')
+            .deleteOne({_id:id});
+    })
+            
 }
 
 // all users
@@ -80,4 +90,4 @@ function all(){
 }
 
 
-module.exports = {create, findOne, find, update, all};
+module.exports = {create, findOne, find, update, deleteOne, all};

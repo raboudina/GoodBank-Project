@@ -67,6 +67,34 @@ app.get("/login/:email/:password", function (req, res) {
     }
   });
 });
+//delete user account
+app.get("/delete/:email/:password", function (req, res) {
+  dal.find(req.params.email).then((user) => {
+    // if user exists, check password
+    if (user.length > 0) {
+      bcrypt.compare(
+        req.params.password,
+        user[0].password,
+        function (err, isMatch) {
+          if (isMatch) {
+            var response = dal.deleteOne(user[0]._id);
+           // response.then((resolve)=>{console.log(resolve);
+              //res.send(JSON.stringify(resolve));});
+           res.send({ success: true });
+           
+          } else {
+            res.send({
+              success: false,
+              message: "Failed to delete account: wrong password",
+            });
+          }
+        }
+      );
+    } else {
+      res.send({ success: false, message: "Failed to delete account: user not found" });
+    }
+  });
+});
 
 // find user account
 app.get("/account/find/:email", function (req, res) {

@@ -137,6 +137,7 @@ function CreateAccount() {
         if (!resolve.data.success) alert("User already exists!");
         else {
           setCurrentUser(resolve.data.user);
+          currentUser.setIsGoogleAccount(true);
           //Hide form fields and display success message
           setShow(false);
         }

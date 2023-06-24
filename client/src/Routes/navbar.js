@@ -39,8 +39,15 @@ function NavBar() {
         {/* <Nav variant="pill">
         <Navbar.Text style={{color:"white",  marginRight: '0.8rem'}}>Logged-in as: {name}   </Navbar.Text>
         </Nav> */}
+        {currentUser.isGoogleAccount?  (<img
+              src="../imgs/google.png"
+              width="20"              
+              alt = "Google icon"
+              style={{ marginRight: "0.8rem" }}
+            />):(<></>)}
         <NavDropdown style={{color:"white", marginRight: '0.8rem'}} variant="pill" title= {"Logged-in as: "+name} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#/info/">Account information</NavDropdown.Item>     
+              <NavDropdown.Item href="#/info/">Account information</NavDropdown.Item>  
+              <NavDropdown.Item href="#/deleteAccount/">Delete account</NavDropdown.Item>    
               <NavDropdown.Item href="#/logout/">Logout</NavDropdown.Item>         
         </NavDropdown>
       </Navbar.Collapse>

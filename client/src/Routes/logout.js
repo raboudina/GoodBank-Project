@@ -5,6 +5,7 @@ import { UserContext } from "../context";
 function Logout() {
 const currentUser=useContext(UserContext);
 currentUser.setLoggedIn(false);
+currentUser.setIsGoogleAccount(false);
 currentUser.setName("");
 currentUser.setEmail("");
 currentUser.setBalance("");  
