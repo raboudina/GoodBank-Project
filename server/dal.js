@@ -57,7 +57,7 @@ function update(email, amount){
             .updateOne(
                 {email: email},
                 { $set: { balance: amount}},
-                { returnOriginal: false },
+                { returnOriginal: true },
                 function (err, documents) {
                     err ? reject(err) : resolve(documents);
                 }

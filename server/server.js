@@ -24,7 +24,7 @@ app.get("/create/:name/:email/:password/:balance", function (req, res) {
     // if user exists, return error message
     if (users.length > 0) {
       console.log("User already exists");
-      res.send("User exists");
+      res.send({success:false, message:"User already exists"});
     } else {
       // else create user
       bcrypt.genSalt(10, function (err, salt) {
@@ -34,7 +34,7 @@ app.get("/create/:name/:email/:password/:balance", function (req, res) {
             .create(req.params.name, req.params.email, hash, req.params.balance)
             .then((user) => {
               console.log(user);
-              res.send(user);
+              res.send({success:true, user:user});
             });
         });
       });
@@ -52,6 +52,7 @@ app.get("/login/:email/:password", function (req, res) {
         user[0].password,
         function (err, isMatch) {
           if (isMatch) {
+            console.log(JSON.stringify({ success: true, user: user[0] }));
             res.send({ success: true, user: user[0] });
           } else {
             res.send({
@@ -89,7 +90,7 @@ app.get("/update/:email/:amount", function (req, res) {
 
   dal.update(req.params.email, amount).then((response) => {
     console.log(response);
-    res.send(response);
+    res.send({balance:amount});
   });
 });
 

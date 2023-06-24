@@ -134,9 +134,9 @@ function CreateAccount() {
       //Add new account
       let res = createUser(googleName, googleEmail, googlePassword, balance);
       res.then((resolve) => {
-        if (resolve.data === "User exists") alert("User already exists!");
+        if (!resolve.data.success) alert("User already exists!");
         else {
-          setCurrentUser(resolve.data);
+          setCurrentUser(resolve.data.user);
           //Hide form fields and display success message
           setShow(false);
         }
@@ -177,10 +177,9 @@ function CreateAccount() {
     //Add new account
     let res = createUser(name, email, password, balance);
     res.then((resolve) => {
-      console.log(resolve.data);
-      if (resolve.data === "User exists") alert("User already exists!");
+      if (!resolve.data.success) alert("User already exists!");
       else {
-        setCurrentUser(resolve.data);
+        setCurrentUser(resolve.data.user);
         //Hide form fields and display success message
         setShow(false);
       }
